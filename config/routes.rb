@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :blogs, except: [:show, :new]
   resources :tags, only: [:index]
   resources :sessions, except: [:index, :create, :destroy]
-  root 'home#index'
+  root 'main#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

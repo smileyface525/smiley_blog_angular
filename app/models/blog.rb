@@ -5,6 +5,12 @@ class Blog < ActiveRecord::Base
       too_long: "%{count} characters is the maximum allowed" }
   before_save :titleize_title!
 
+  def self.all_with_tags
+    all.inject(Array.new) do |blog_array, blog|
+      blog_array << { blog: blog, tags: blog.tags.map(&:name) }
+    end
+  end
+
   def titleize_title!
     self.title = title.titleize
   end
