@@ -422,6 +422,11 @@ td {
   margin-left: .5rem;
 }
 
+.mx1 {
+  margin-right:  .5rem;
+  margin-left:  .5rem;
+}
+
 .m2 {
   margin: 1rem;
 }
@@ -518,6 +523,14 @@ td {
   margin-right: auto;
 }
 
+.p0 {
+  padding: 0;
+}
+
+.pr0 {
+  padding-right: 0;
+}
+
 .p1 {
   padding: .5rem;
 }
@@ -531,6 +544,7 @@ td {
   padding-left: .5rem;
   padding-right: .5rem;
 }
+
 
 .p2 {
   padding: 1rem;
@@ -1136,7 +1150,7 @@ hr {
 
 .field-light:focus {
   outline: none;
-  border-color: #0076df;
+  /*border-color: #0076df;*/
   box-shadow: 0 0 2px rgba(0, 118, 223, .5);
 }
 
@@ -1149,21 +1163,21 @@ hr {
   background-color: rgba(0, 0, 0, .125);
 }
 
-.field-light:invalid {
+./*field-light:invalid {
   border-color: #f95020;
-}
+}*/
 
-.field-light.is-success {
+/*.field-light.is-success {
   border-color: #00cf26;
-}
+}*/
 
-.field-light.is-warning {
+/*.field-light.is-warning {
   border-color: #efcc00;
-}
+}*/
 
-.field-light.is-error {
+/*.field-light.is-error {
   border-color: #f95020;
-}
+}*/
 
 .radio-light,
 .checkbox-light {
@@ -1559,6 +1573,14 @@ hr {
 
 .not-rounded {
   border-radius: 0;
+}
+
+.ng-invalid.ng-dirty {
+  border-color:#FA787E;
+}
+
+.ng-valid.ng-dirty {
+  border-color:#78FA89;
 }
 
 /* Defaults */
