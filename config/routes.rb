@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  resources :users
+  get '/' => 'main#index'
   resources :blogs, except: [:show, :new]
-  resources :tags, only: [:index]
-  resources :sessions, except: [:index, :create, :destroy]
+  resources :sessions, only: [:index, :create, :destroy]
   root 'main#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

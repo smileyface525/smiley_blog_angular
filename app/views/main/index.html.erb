@@ -2,17 +2,26 @@
   <div id="main" class="clearfix  bg-white pt3 pb4" >
 
     <div id="side" class="left fixed fifth-width">
-      <header class="ml1 bg-white">
+      <header class="ml1 bg-white" ng-controller="SessionController as sessionCtrl">
         <h1 class="m0 regular">Sm<a href>:)</a>eyblog</h1>
-        <form class="ml1 nine-tenth-width right-align">
-          <p class="m0 left-align small-height h4 mid-gray"></p>
-          <input type="email" class="block full-width input-sm field-light" placeholder="email" />
-          <input type="password" class="block full-width mb0 input-sm field-light" placeholder="password" />
+        <form name="loginForm" class="ml1 nine-tenth-width right-align" ng-show="sessionCtrl.currentUser === null" ng-submit="loginForm.$valid && sessionCtrl.login()" novalidate>
+          <div class="m0 left-align small-height" >
+            <p class="h4 mid-gray" ng-show="sessionCtrl.error">{{sessionCtrl.error.msg}}</p>
+          </div>
+          <input type="email" class="block full-width input-sm field-light" placeholder="email" ng-model="sessionCtrl.session.email" required/>
+          <input type="password" class="block full-width mb0 input-sm field-light" placeholder="password" ng-model="sessionCtrl.session.password" required/>
           <p class="m0 h6"><a href>forgot my password</a></p>
           <input type="submit" value="login" />
           or
-          <input type="submit" value="sign up" />
+          <input type="submit" value="sign up" ng-click="sessionCtrl.showCreateForm()" />
         </form>
+        <div ng-show="sessionCtrl.currentUser !== null">
+          <p class="h2 mx1 mt1 mb0">Hello, <a href ng-mouseover="sessionCtrl.showOptions()" >{{sessionCtrl.currentUser.username}}</a>!</p>
+          <ul class="center m0 sm-col-9 mx-auto p0 bg-lighter-gray" ng-show="sessionCtrl.optionsDisplayed" ng-mouseleave="sessionCtrl.hideOptions()">
+            <li class="inline h4 mr1"><a href>profile</a></li>
+            <li class="inline h4 mr1"><a href ng-click="sessionCtrl.logout()">logout</a></li>
+          </ul>
+        </div>
       </header>
       <nav class="m0 py3">
         <ul class="ml3 list-gray-square">
@@ -29,53 +38,22 @@
         <div class="p2 bg-subtle-gray">
           <h1 class="m0 h2 regular">{{blog.blog.title}}</h1>
           <p class="italic h4">
-            <a href ng-repeat="tag in blog.tags">tag</a>
+            <a href ng-repeat="tag in blog.tags" class="mr2">{{tag}}</a>
           </p>
           <h2 class="h4 mid-gray regular italic">{{ blog.blog.created_at | date  }}</h2>
           <article class="h4 m2">{{blog.blog.content}}</article>
         </div>
         <div>
-          <h3 class-"regular"><a class="button regular">Comments</a></h3>
-          <ul class="ml3 list-reset mid-gray">
+          <h3 class-"regular"><a href ng-click="blogCtrl.toggleComments(blog)" class="button regular" >Comments</a></h3>
+          <ul class="ml3 list-reset mid-gray"  ng-show="blog.commentsDisplayed" ng-repeat="comment in blog.comments">
             <li>
-              <p class="m0 h4"><span class="italic">mookie</span>: "Your blog is the best!"</p>
-            </li>
-            <li>
-              <p class="m0 h4"><span class="italic">nyu ta</span>: "Your blog is the best!"</p>
+              <p class="m0 h4"><span class="italic">{{comment.author}}</span>: "{{comment.content}}"</p>
             </li>
           </ul>
         </div>
 
       </section>
-      <section class="mx2 p1 white-shadow ">
-        <div class="p2 bg-subtle-gray">
-          <h1 class="m0 h2 regular">Blog One</h1>
-          <p class="italic h4">
-            <a href>Rails</a>, <a href>React</a>, <a href>Git</a>, <a href>Heroku</a>
-          </p>
-          <h2 class="h4 mid-gray regular italic">Oct 12, 2014</h2>
-          <article class="h4 m2">
-            We're going to build a simple version of Craigslist. This will be your first web application that uses multiple models.
-
-            Keep in mind that this is not substantially different than a command-line version. Instead of reading in command-line arguments, we read in URL parameters. Instead of printing to the console, we print HTML and CSS.
-          </article>
-        </div>
-        <div>
-          <h3 class-"regular"><a class="button regular">Comments</a></h3>
-          <ul class="ml3 list-reset mid-gray">
-            <li>
-              <p class="m0 h4"><span class="italic">mookie</span>: "Your blog is the best!"</p>
-            </li>
-            <li>
-              <p class="m0 h4"><span class="italic">nyu ta</span>: "Your blog is the best!"</p>
-            </li>
-          </ul>
-        </div>
-
-      </section>
-
     </div>
-
   </div>
 
   <footer class="center italic">
