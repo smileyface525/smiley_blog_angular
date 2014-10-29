@@ -20,14 +20,17 @@
     this.currentUser = null;
     this.error = null;
     this.optionsDisplayed = false;
+    this.loginForm = {};
 
     this.isAdmin = function() {
       return this.currentUser.status === "admin" ? true : false
     };
 
-    this.login = function() {
+    this.login = function(loginForm) {
+      this.loginForm = loginForm;
       $http.post('/sessions', {user: this.session}).
       success(function(user) {
+        this.loginForm.$setPristine();
         this.error = null;
         this.currentUser = user;
       }.bind(this)).

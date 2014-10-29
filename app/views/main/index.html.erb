@@ -4,7 +4,7 @@
     <div id="side" class="left fixed fifth-width">
       <header class="ml1 bg-white" ng-controller="SessionController as sessionCtrl">
         <h1 class="m0 regular">Sm<a href>:)</a>eyblog</h1>
-        <form name="loginForm" class="ml1 nine-tenth-width right-align" ng-show="sessionCtrl.currentUser === null" ng-submit="loginForm.$valid && sessionCtrl.login()" novalidate>
+        <form name="loginForm" class="ml1 nine-tenth-width right-align" ng-show="sessionCtrl.currentUser === null" ng-submit="loginForm.$valid && sessionCtrl.login(loginForm)" novalidate>
           <div class="m0 left-align small-height" >
             <p class="h4 mid-gray" ng-show="sessionCtrl.error">{{sessionCtrl.error.msg}}</p>
           </div>
