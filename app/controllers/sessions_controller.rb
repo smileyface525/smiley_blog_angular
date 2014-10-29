@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session.clear
-    redirect_to blogs_path
+    redirect_to root_path, status: 303
   end
 
 end
