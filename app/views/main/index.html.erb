@@ -1,61 +1,11 @@
 <div id="wrapper"  class="mx15">
-  <div id="main" class="clearfix  bg-white pt3 pb4" >
-
+  <div id="main" class="clearfix  bg-white pt3 pb4">
     <div id="side" class="left fixed fifth-width">
-      <header class="ml1 bg-white" ng-controller="SessionController as sessionCtrl">
-        <h1 class="m0 regular">Sm<a href>:)</a>eyblog</h1>
-        <form name="loginForm" class="ml1 nine-tenth-width right-align" ng-show="sessionCtrl.currentUser === null" ng-submit="loginForm.$valid && sessionCtrl.login(loginForm)" novalidate>
-          <div class="m0 left-align small-height" >
-            <p class="h4 mid-gray" ng-show="sessionCtrl.error">{{sessionCtrl.error.msg}}</p>
-          </div>
-          <input type="email" class="block full-width input-sm field-light" placeholder="email" ng-model="sessionCtrl.session.email" required/>
-          <input type="password" class="block full-width mb0 input-sm field-light" placeholder="password" ng-model="sessionCtrl.session.password" required/>
-          <p class="m0 h6"><a href>forgot my password</a></p>
-          <input type="submit" value="login" />
-          or
-          <input type="submit" value="sign up" ng-click="sessionCtrl.showCreateForm()" />
-        </form>
-        <div ng-show="sessionCtrl.currentUser !== null">
-          <p class="h2 mx1 mt1 mb0">Hello, <a href ng-mouseover="sessionCtrl.showOptions()" >{{sessionCtrl.currentUser.username}}</a>!</p>
-          <ul class="center m0 sm-col-9 mx-auto p0 bg-lighter-gray" ng-show="sessionCtrl.optionsDisplayed" ng-mouseleave="sessionCtrl.hideOptions()">
-            <li class="inline h4 mr1"><a href>profile</a></li>
-            <li class="inline h4 mr1"><a href ng-click="sessionCtrl.logout()">logout</a></li>
-          </ul>
-        </div>
-      </header>
-      <nav class="m0 py3">
-        <ul class="ml3 list-gray-square">
-          <li><a href >All</a></li>
-          <li><a href >Recent</a></li>
-          <li><a href >React</a></li>
-          <li><a href >Heroku</a></li>
-          <li><a href >Angular</a></li>
-        </ul>
-      </nav>
+      <app-header></app-header>
+      <tag-list></tag-list>
     </div>
-    <div id="content-list" class="right two-third-width" ng-controller="BlogController as blogCtrl">
-      <section class="mx2 mb2 p1 white-shadow" ng-repeat="blog in blogCtrl.blogs">
-        <div class="p2 bg-subtle-gray">
-          <h1 class="m0 h2 regular">{{blog.blog.title}}</h1>
-          <p class="italic h4">
-            <a href ng-repeat="tag in blog.tags" class="mr2">{{tag}}</a>
-          </p>
-          <h2 class="h4 mid-gray regular italic">{{ blog.blog.created_at | date  }}</h2>
-          <article class="h4 m2">{{blog.blog.content}}</article>
-        </div>
-        <div>
-          <h3 class-"regular"><a href ng-click="blogCtrl.toggleComments(blog)" class="button regular" >Comments</a></h3>
-          <ul class="ml3 list-reset mid-gray"  ng-show="blog.commentsDisplayed" ng-repeat="comment in blog.comments">
-            <li>
-              <p class="m0 h4"><span class="italic">{{comment.author}}</span>: "{{comment.content}}"</p>
-            </li>
-          </ul>
-        </div>
-
-      </section>
-    </div>
+    <main-content></main-content>
   </div>
-
   <footer class="center italic">
     <p class="h4 mt2">by eiko seino 2014</p>
   </footer>
