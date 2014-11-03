@@ -10,9 +10,24 @@ class Blog < ActiveRecord::Base
     all.inject(Array.new) do |blog_array, blog|
       blog_array << { blog: blog,
                       tags: blog.tags.map(&:name),
-                      comments: blog.comments.map{ |c| { content: c.content, reply: c.reply, author: c.author.username} }
+                      comments: blog.comments.map{ |c| {
+                         id: c.id,
+                         content: c.content,
+                         reply: c.reply,
+                         author: c.author.username} }
                     }
     end
+  end
+
+  def with_tags_and_comments
+    {blog: self,
+     tags: self.tags.map(&:name),
+     comments: self.comments.map{ |c| {
+        id: c.id,
+        content: c.content,
+        reply: c.reply,
+        author: c.author.username} }
+    }
   end
 
   def titleize_title!
