@@ -5,6 +5,7 @@ class SessionsController < ApplicationController
   end
 
   def create
+    render_unauthorized_request unless verified_request?
     user = User.authenticate_by_email(params[:user][:email], params[:user][:password])
     if user
       session[:user_id] = user.id
@@ -15,8 +16,16 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    render_unauthorized_request unless verified_request?
     session.clear
     redirect_to root_path, status: 303
+  end
+
+  private
+
+  def render_unauthorized_request
+    render json: {msg: 'Unaurthorized request was made.'}, status: 401
+    return
   end
 
 end
