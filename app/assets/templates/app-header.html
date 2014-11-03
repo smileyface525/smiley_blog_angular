@@ -1,0 +1,21 @@
+<header class="ml1 bg-white"  ng-controller="SessionController as sessionCtrl" >
+  <h1 class="m0 regular">Sm<a href>:)</a>eyblog</h1>
+  <form name="loginForm" class="ml1 nine-tenth-width right-align" ng-hide="sessionCtrl.loggedIn()" ng-submit="loginForm.$valid && sessionCtrl.login(loginForm)" novalidate>
+    <div class="m0 left-align small-height" >
+      <p class="h4 mid-gray" ng-show="sessionCtrl.error">{{sessionCtrl.error.msg}}</p>
+    </div>
+    <input type="email" class="block full-width input-sm field-light" placeholder="email" ng-model="sessionCtrl.session.email" required/>
+    <input type="password" class="block full-width mb0 input-sm field-light" placeholder="password" ng-model="sessionCtrl.session.password" required/>
+    <p class="m0 h6"><a href>forgot my password</a></p>
+    <button type="submit" class="button-gray button-small regular" >login</button>
+    or
+    <button type="button" class="button-gray button-small regular" ng-click="sessionCtrl.showCreateForm()">sign up</button>
+  </form>
+  <div ng-show="sessionCtrl.loggedIn()">
+    <p class="h2 mx1 mt1 mb0">Hello, <a href ng-mouseover="sessionCtrl.showOptions()" >{{sessionCtrl.currentUser.username}}</a>!</p>
+    <ul class="center m0 sm-col-9 mx-auto p0 bg-lighter-gray" ng-show="sessionCtrl.optionsDisplayed" ng-mouseleave="sessionCtrl.hideOptions()">
+      <li class="inline h4 mr1"><a href>profile</a></li>
+      <li class="inline h4 mr1"><a href ng-click="sessionCtrl.logout()">logout</a></li>
+    </ul>
+  </div>
+</header>
