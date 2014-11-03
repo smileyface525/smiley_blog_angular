@@ -382,6 +382,10 @@ td {
   white-space: nowrap;
 }
 
+.pre {
+  white-space: pre;
+}
+
 .m0 {
   margin: 0;
 }
@@ -720,7 +724,7 @@ td {
 */
 
 .button-small {
-  padding: .25em .5rem;
+  padding: .15em .3rem;
 }
 
 .button-big {
@@ -1319,7 +1323,7 @@ hr {
 
 .button-gray {
   color: white;
-  background-color: #777;
+  background-color: #ccc;
   border-radius: 3px;
   -webkit-transition-duration: .1s;
           transition-duration: .1s;
