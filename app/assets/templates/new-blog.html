@@ -1,11 +1,11 @@
 <section class="mx2 mb2 p1 white-shadow" ng-controller="BlogFormController as BFCtrl">
   <div class="p2 bg-subtle-gray">
-    <h1 class="m0 h2 regular">{{BFCtrl.blogInputs.title}}</h1>
+    <h1 class="m0 h2 regular">{{BFCtrl.blogInputs.blog.title.titleize()}}</h1>
     <p class="italic h4">
       <a href class="mr2" ng-repeat="tag in BFCtrl.blogInputs.tags">{{tag}}</a>
     </p>
     <h2 class="h4 mid-gray regular italic">{{ BFCtrl.today | date }}</h2>
-    <article class="h4 m2" ng-model="BFCtrl.blogInputs.content">{{BFCtrl.blogInputs.content}}</article>
+    <article class="h4 m2" ng-model="BFCtrl.blogInputs.content">{{BFCtrl.blogInputs.blog.content}}</article>
     <blog-form></blog-form>
   </div>
 

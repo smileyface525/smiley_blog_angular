@@ -1,5 +1,5 @@
 <div class="right two-third-width" ng-controller="BlogsController as blogsCtrl">
-  <section class="mx2 mb2 p1 white-shadow" ng-repeat="blog in blogsCtrl.blogs">
+  <section class="mx2 mb2 p1 white-shadow" ng-controller="BlogFormController as BFCtrl" ng-repeat="blog in blogsCtrl.blogs">
     <div class="p2 bg-subtle-gray">
       <h1 class="m0 h2 regular">{{blog.blog.title}}</h1>
       <p class="italic h4">
@@ -8,9 +8,10 @@
       <h2 class="h4 mid-gray regular italic">{{ blog.blog.created_at | date }}</h2>
       <article class="h4 m2 pre">{{blog.blog.content}}</article>
       <ul class="right-align h4" ng-show="blogsCtrl.isAdmin()">
-        <li class="inline mr1"><a href>edit</a></li>
-        <li class="inline mr1"><a href>delete</a></li>
+        <li class="inline mr1"><a href ng-click="blogsCtrl.turnOnEditMode(blog, BFCtrl)">edit</a></li>
+        <li class="inline mr1"><a href ng-click="blogsCtrl.destroy(blog)">delete</a></li>
       </ul>
+      <blog-form ng-show="blog.editMode"></blog-form>
     </div>
     <div>
       <h3 class-"regular"><a href ng-click="blogsCtrl.toggleComments(blog)" class="button regular" >Comments</a></h3>
@@ -31,6 +32,6 @@
     </div>
 
   </section>
-  <a href class="button" ng-show="blogsCtrl.isAdmin()" ng-click="blogsCtrl.showNewBlog()">New Blog</a>
+  <a href class="button" ng-show="blogsCtrl.isAdmin()" ng-click="blogsCtrl.showNewBlog(BFCtrl)">New Blog</a>
   <new-blog ng-show="blogsCtrl.newBlogDisplayed"></new-blog>
 </div>

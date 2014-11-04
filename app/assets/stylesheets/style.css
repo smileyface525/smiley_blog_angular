@@ -608,6 +608,10 @@ td {
   padding-right: 4rem;
 }
 
+.pb10 {
+  padding-bottom: 10rem;
+}
+
 .sm-show,
 .md-show,
 .lg-show {

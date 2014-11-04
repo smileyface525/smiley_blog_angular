@@ -50,13 +50,27 @@
 
   } ]);
 
-  appControllers.controller('TagListController', ['Tags', function(Tags) {
+  appControllers.controller('TagListController', ['Tags', 'Blogs', function(Tags, Blogs) {
 
+    this.defaultTags = ['All', 'Recent'];
+    this.tagsToBeListed = [];
     this.tags = [];
+    this.currentlyShowing = null;
     Tags.registerObserverCB(function() {
       this.tags = Tags.tags();
+      this.tagsToBeListed = this.defaultTags.concat(this.tags);
+      if(this.tagsToBeListed.indexOf(this.currentlyShowing) === -1) {
+        this.currentlyShowing = 'All';
+      }
     }.bind(this));
-    Tags.getAll();
+    Blogs.registerObserverCB(function() {
+      Tags.getAll();
+    })
+
+    this.showBlogsFor = function(tag) {
+      this.currentlyShowing = tag;
+      Blogs.getAll(tag);
+    };
 
   }]);
 
@@ -65,15 +79,17 @@
       this.blogs = {};
       this.replyContent = '';
       this.newBlogDisplayed = false;
+      this.currentlyEditting = {};
 
       Blogs.registerObserverCB(function() {
         this.blogs = Blogs.blogs();
       }.bind(this));
 
-      Blogs.getAll()
-           .then(function() {
-              this.blogs = Blogs.blogs();
-            }.bind(this));
+      Blogs.getAll('All');
+
+      this.destroy = function(blog) {
+        Blogs.destroy(blog);
+      };
 
       this.toggleComments = function(blog) {
         blog.commentsDisplayed = blog.commentsDisplayed ? false : true;
@@ -110,26 +126,45 @@
              }.bind(this));
       };
 
-      this.showNewBlog = function() {
+      this.showNewBlog = function(BFCtrl) {
+        BFCtrl.cancelForm();
         this.newBlogDisplayed = true;
       };
 
-      this.hideNewBlog = function(BlogFormController) {
+      this.hideNewBlog = function() {
+        debugger
         this.newBlogDisplayed = false;
-        BlogFormController.resetForm();
       };
 
-      this.formatContent = function(content) {
-        return content.replace(/(?:\r\n|\r|\n)/g, '<br />');
+      this.turnOnEditMode = function(blog, BFCtrl) {
+        BFCtrl.cancelForm();
+        this.turnOffEditMode(this.currentlyEditting);
+        BFCtrl.originalBlog = this.copyBlog(blog);
+        this.currentlyEditting = blog;
+        blog.editMode = true;
+        BFCtrl.blogInputs = blog;
+      };
+
+      this.turnOffEditMode = function() {
+        this.currentlyEditting.editMode = false;
+        this.currentlyEditting = {};
+      };
+
+      this.copyBlog = function(blog) {
+        return { blog: {title: blog.blog.title,
+                        content: blog.blog.content},
+                 tags: blog.tags
+        }
       };
 
   } ]);
 
 appControllers.controller('BlogFormController', ['Blogs', 'Tags', function(Blogs, Tags) {
 
-  this.blogInputs = {title: 'blog title',
-                     content: 'blog content',
+  this.blogInputs = {blog: {title: 'blog title',
+                            content: 'blog content'},
                      tags:[]};
+  this.originalBlog = {};
   this.tags = [];
   this.newTag = null;
   this.today = new Date();
@@ -139,6 +174,14 @@ appControllers.controller('BlogFormController', ['Blogs', 'Tags', function(Blogs
   Tags.registerObserverCB(function() {
     this.tags = Tags.tags();
   }.bind(this));
+
+  this.tagAlreadyChecked = function(tag) {
+    var checked = false;
+    this.blogInputs.tags.forEach(function(t) {
+      if (t === tag) { checked =  true;};
+    });
+    return checked;
+  };
 
   this.toggleTagSelection = function(tagName) {
     var index = this.blogInputs.tags.indexOf(tagName);
@@ -155,8 +198,17 @@ appControllers.controller('BlogFormController', ['Blogs', 'Tags', function(Blogs
   };
 
   this.addTag = function() {
-    if(this.newTag.trim() !== '') {this.tags.push(this.newTag)};
+    if(this.newTag.trim() !== '') {this.tags.push(this.newTag.titleize())};
     this.cancelNewTagInput();
+  };
+
+  String.prototype.titleize = function() {
+    var words = this.split(' ')
+    var array = []
+    for (var i=0; i<words.length; ++i) {
+      array.push(words[i].charAt(0).toUpperCase() + words[i].toLowerCase().slice(1))
+    }
+    return array.join(' ')
   };
 
   this.validateTags = function() {
@@ -170,7 +222,7 @@ appControllers.controller('BlogFormController', ['Blogs', 'Tags', function(Blogs
   };
 
   this.validateTitle = function() {
-    var title = this.blogInputs.title;
+    var title = this.blogInputs.blog.title;
      if(title.trim() === '' || title === 'blog title') {
       this.errors.title = 'Please enter a new title.';
      }
@@ -180,7 +232,7 @@ appControllers.controller('BlogFormController', ['Blogs', 'Tags', function(Blogs
   };
 
   this.validateContent = function() {
-    var content = this.blogInputs.content;
+    var content = this.blogInputs.blog.content;
     if(content.trim() === '' || content === 'blog content') {
       this.errors.content = 'Please enter a new content.'
     }
@@ -199,21 +251,52 @@ appControllers.controller('BlogFormController', ['Blogs', 'Tags', function(Blogs
     return true;
   };
 
-  this.submit = function(blogForm) {
+  this.formType = function() {
+    return this.blogInputs.editMode === true ? 'edit' : 'new';
+  };
+
+  this.submitType = function() {
+    if (this.formType() === 'new') {
+      return 'create blog';
+    }
+    else {
+      return 'edit blog';
+    }
+  }
+
+  this.submit = function(blogForm, blogsCtrl) {
     if(this.validateForm()) {
-      debugger
       Blogs.create(this.blogInputs);
       blogForm.$setPristine();
+      blogsCtrl.hideNewBlog();
       this.resetForm();
     }
   };
 
   this.resetForm = function() {
-    this.blogInputs = {title: 'blog title',
-                     content: 'blog content',
-                     tags:[]};
+    this.blogInputs = {blog: {title: 'blog title',
+                            content: 'blog content'},
+                       tags:[]};
     this.newTag = null;
     this.cancelNewTagInput();
+  };
+
+  this.cancelForm = function(blogsCtrl) {
+    this.resetForm();
+    if (this.formType === 'new') {
+      debugger
+      blogsCtrl.hideNewBlog();
+    }
+    else {
+      this.setBlogToOG(blogsCtrl.currentlyEditting);
+      blogsCtrl.turnOffEditMode();
+    }
+  };
+
+  this.setBlogToOG = function(blog) {
+    blog.blog.title = this.originalBlog.blog.title;
+    blog.blog.content = this.originalBlog.blog.content;
+    blog.tags = this.originalBlog.tags;
   };
 
 } ]);

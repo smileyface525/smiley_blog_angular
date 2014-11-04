@@ -1,7 +1,7 @@
-<form name="blogForm" class="m2 h4 mid-gray"  ng-submit="blogForm.$valid && BFCtrl.submit(blogForm)" novalidate>
+<form name="blogForm" class="m2 h4 mid-gray"  ng-submit="blogForm.$valid && BFCtrl.submit(blogForm, blogsCtrl)" novalidate>
   <p class="red h4">{{ BFCtrl.errors.tags }}</p>
   <div class="inline" ng-repeat="tag in BFCtrl.tags">
-    <input type="checkbox" ng-click="BFCtrl.toggleTagSelection(tag)" required/>{{tag}}
+    <input type="checkbox" ng-click="BFCtrl.toggleTagSelection(tag)" ng-checked="BFCtrl.tagAlreadyChecked(tag)" required/>{{tag}}
   </div>
   <a  class="ml1" href ng-click="BFCtrl.showNewTagInput()">new</a>
   <div class="block" ng-show="BFCtrl.newTagInputDisplayed">
@@ -10,13 +10,13 @@
     <button type="button" class="ml1 button-gray button-small regular" ng-click="BFCtrl.cancelNewTagInput()">cancel</button>
   </div>
   <p class="red h4">{{ BFCtrl.errors.title }}</p>
-  <input class="block full-width field-light mid-gray" type="text" name="blog[title]" placeholder="new title"  ng-model="BFCtrl.blogInputs.title" required/>
+  <input class="block full-width field-light mid-gray" type="text" name="blog[title]" placeholder="new title"  ng-model="BFCtrl.blogInputs.blog.title" required/>
   <p class="red h4">{{ BFCtrl.errors.content }}</p>
-  <textarea class="block full-width field-light mid-gray" name="blog[content]" placeholder="new content" ng-model="BFCtrl.blogInputs.content" required></textarea>
+  <textarea class="block full-width field-light mid-gray" name="blog[content]" placeholder="new content" ng-model="BFCtrl.blogInputs.blog.content" required></textarea>
   <div class="right-align">
-    <button type="submit" class="button-gray button-small regular" >create new blog</button>
+    <button type="submit" class="button-gray button-small regular" >{{BFCtrl.submitType();}}</button>
     or
-    <button type="button" class="button-gray button-small regular" ng-click="blogsCtrl.hideNewBlog()">cancel</button>
+    <button type="button" class="button-gray button-small regular" ng-click="BFCtrl.cancelForm(blogsCtrl)">cancel</button>
   </div>
 
 </form>

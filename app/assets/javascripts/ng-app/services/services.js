@@ -1,6 +1,6 @@
 var appServices = angular.module('appServices', []);
 
-appServices.service('Blogs', ['$q', '$http', function($q, $http) {
+appServices.service('Blogs',  ['$q', '$http', function($q, $http) {
 
   var blogs = {};
   var registeredCBs = [];
@@ -21,24 +21,33 @@ appServices.service('Blogs', ['$q', '$http', function($q, $http) {
       })
     },
 
-    getAll: function() {
-      var deferred = $q.defer();
-      $http.get('/blogs')
+    getAll: function(tag) {
+      var url = '/blogs/?tag=' + tag;
+      $http.get(url)
            .success(function(data) {
               blogs = data;
-              deferred.resolve();
-           });
-        return deferred.promise;
+              this.notifyObservers();
+           }.bind(this));
     },
 
     create: function(blogInputs) {
-      var data = {blog: {title: blogInputs.title,
-                         content: blogInputs.content},
-                  tags: blogInputs.tags};
-      $http.post('/blogs', data)
+      $http.post('/blogs', blogInputs)
            .success(function(data) {
-            debugger
-              blogs.push(data);
+              blogs.unshift(data);
+              this.notifyObservers();
+           }.bind(this))
+    },
+
+    destroy: function(blog) {
+      var url = '/blogs/' + blog.blog.id;
+      $http.delete(url)
+           .success(function(data) {
+              blogs.forEach(function(blog) {
+                if(blog.blog.id === data.id) {
+                 var index = blogs.indexOf(blog);
+                 blogs.splice(index, 1);
+                };
+              });
               this.notifyObservers();
            }.bind(this))
     },
