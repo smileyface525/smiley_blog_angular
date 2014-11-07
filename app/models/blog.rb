@@ -25,7 +25,7 @@ class Blog < ActiveRecord::Base
   def with_tags_and_comments
       {blog: self,
        tags: self.tags.map(&:name),
-       comments: self.comments.map{ |c| {
+       comments: self.comments.order(created_at: :desc).map{ |c| {
           id: c.id,
           content: c.content,
           reply: c.reply,

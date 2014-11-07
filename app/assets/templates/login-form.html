@@ -1,0 +1,11 @@
+<form name="loginForm" class="ml1 nine-tenth-width right-align" ng-submit="loginForm.$valid && LFCtrl.login(loginForm, AHCtrl)" novalidate>
+  <div class="m0 left-align small-height" >
+    <p class="h4 mid-gray" ng-show="LFCtrl.error">{{LFCtrl.error.msg}}</p>
+  </div>
+  <input type="email" class="block full-width input-sm field-light" placeholder="email" ng-model="LFCtrl.formInputs.email" required/>
+  <input type="password" class="block full-width mb0 input-sm field-light" placeholder="password" ng-model="LFCtrl.formInputs.password" required/>
+  <p class="m0 h6"><a href>forgot my password</a></p>
+  <button type="submit" class="button-gray button-small regular" >login</button>
+  or
+  <button type="button" class="button-gray button-small regular" ng-click="">sign up</button>
+</form>

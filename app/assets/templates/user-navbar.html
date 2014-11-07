@@ -1,0 +1,10 @@
+<div>
+  <p class="h2 mx1 mt1 mb0">Hello, <a href ng-mouseover="UNbar.showOptions()" >{{AHCtrl.currentUser.username}}</a>!</p>
+  <ul class="center m0 sm-col-9 mx-auto p0 bg-lighter-gray" ng-show="UNbar.optionsDisplayed" ng-mouseleave="UNbar.hideOptions()">
+    <li class="inline h4 mr1">
+      <a href>profile</a></li>
+    <li class="inline h4 mr1">
+      <a href ng-click="UNbar.logout(AHCtrl)">logout</a>
+    </li>
+  </ul>
+</div>

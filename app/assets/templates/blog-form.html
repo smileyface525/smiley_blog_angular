@@ -1,4 +1,4 @@
-<form name="blogForm" class="m2 h4 mid-gray"  ng-submit="blogForm.$valid && BFCtrl.submit(blogForm, blogsCtrl)" novalidate>
+<form name="blogForm" class="m2 h4 mid-gray"  ng-submit="blogForm.$valid && BFCtrl.submit(blogForm, BLCtrl)" novalidate>
   <p class="red h4">{{ BFCtrl.errors.tags }}</p>
   <div class="inline" ng-repeat="tag in BFCtrl.tags">
     <input type="checkbox" ng-click="BFCtrl.toggleTagSelection(tag)" ng-checked="BFCtrl.tagAlreadyChecked(tag)" required/>{{tag}}
@@ -16,7 +16,7 @@
   <div class="right-align">
     <button type="submit" class="button-gray button-small regular" >{{BFCtrl.submitType();}}</button>
     or
-    <button type="button" class="button-gray button-small regular" ng-click="BFCtrl.cancelForm(blogsCtrl)">cancel</button>
+    <button type="button" class="button-gray button-small regular" ng-click="BFCtrl.cancelForm(BLCtrl)">cancel</button>
   </div>
 
 </form>

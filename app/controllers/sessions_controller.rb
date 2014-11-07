@@ -1,7 +1,11 @@
 class SessionsController < ApplicationController
 
   def index
-    render json: current_user
+    if current_user.nil?
+      render_not_found
+    else
+      render json: current_user
+    end
   end
 
   def create
@@ -26,6 +30,10 @@ class SessionsController < ApplicationController
   def render_unauthorized_request
     render json: {msg: 'Unaurthorized request was made.'}, status: 401
     return
+  end
+
+  def render_not_found
+    render json: {msg: 'Could not find record'}, status: 404
   end
 
 end

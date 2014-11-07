@@ -1,0 +1,8 @@
+<form name="replyForm" class="ml3 four-fifth-width h4" ng-submit="replyForm.$valid && submit(comment)" novalidate>
+    <p class="m0 mb1 h4 mid-gray" ng-show="replyForm.$dirty"><span class="italic bold">{{author.username}}</span>: "{{content}}"</p>
+  <textarea class="full-width field-light" ng-model="content" required></textarea>
+  <div class="right-align">
+    <button type="submit" class="button-gray button-small regular">submit</button>
+    <button type="button" class="button-gray button-small regular" ng-show="replyForm.$dirty || type==='reply'" ng-click="cancel(comment)">cancel</button>
+  </div>
+</form>
