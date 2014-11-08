@@ -39,6 +39,22 @@ var Blogs = function($q, $http, Tags) {
            }.bind(this))
     },
 
+    update: function(blog) {
+      var deferred = $q.defer();
+      var url = '/blogs/' + blog.blog.id;
+      $http.put(url, blog)
+           .success(function(data) {
+              blogs.forEach(function(blog) {
+                if(blog.blog.id === data.blog.id) {
+                  blog = data;
+                  Tags.getAll();
+                  deferred.resolve(data);
+                };
+              }.bind(this));
+           }.bind(this))
+      return deferred.promise;
+    },
+
     destroy: function(blog) {
       var url = '/blogs/' + blog.blog.id;
       $http.delete(url)

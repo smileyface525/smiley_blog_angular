@@ -10,13 +10,13 @@
     <button type="button" class="ml1 button-gray button-small regular" ng-click="BFCtrl.cancelNewTagInput()">cancel</button>
   </div>
   <p class="red h4">{{ BFCtrl.errors.title }}</p>
-  <input class="block full-width field-light mid-gray" type="text" name="blog[title]" placeholder="new title"  ng-model="BFCtrl.blogInputs.blog.title" required/>
+  <input class="block full-width field-light mid-gray" type="text" name="blog[title]" placeholder="new title"  ng-model="BFCtrl.blog.blog.title" required/>
   <p class="red h4">{{ BFCtrl.errors.content }}</p>
-  <textarea class="block full-width field-light mid-gray" name="blog[content]" placeholder="new content" ng-model="BFCtrl.blogInputs.blog.content" required></textarea>
+  <textarea class="block full-width field-light mid-gray" name="blog[content]" placeholder="new content" ng-model="BFCtrl.blog.blog.content" required></textarea>
   <div class="right-align">
     <button type="submit" class="button-gray button-small regular" >{{BFCtrl.submitType();}}</button>
     or
-    <button type="button" class="button-gray button-small regular" ng-click="BFCtrl.cancelForm(BLCtrl)">cancel</button>
+    <button type="button" class="button-gray button-small regular" ng-click="BFCtrl.cancelForm(this)">cancel</button>
   </div>
 
 </form>

@@ -3,10 +3,13 @@
   var BlogListController = function(Session, Blogs, Forms, $scope) {
 
     this.blogs = {};
+    this.editMode = false;
     this.newBlogDisplayed = false;
-    this.currentlyEditting = {};
+    this.beingEdited = {};
+
 
     Blogs.registerForBlogListUpdate(function() {
+      if(this.beingEdited) {this.beingEdited.currentlyEditing = false}
       this.blogs = Blogs.blogs();
     }.bind(this));
 
@@ -38,18 +41,10 @@
       this.newBlogDisplayed = false;
     };
 
-    this.turnOnEditMode = function(blog, BFCtrl) {
-      BFCtrl.cancelForm();
-      this.turnOffEditMode(this.currentlyEditting);
-      BFCtrl.originalBlog = this.copyBlog(blog);
-      this.currentlyEditting = blog;
-      blog.editMode = true;
-      BFCtrl.blogInputs = blog;
-    };
-
-    this.turnOffEditMode = function() {
-      this.currentlyEditting.editMode = false;
-      this.currentlyEditting = {};
+    this.turnOnEditMode = function(blog, $scope) {
+      this.beingEdited = blog;
+      blog.currentlyEditing = true;
+      $scope.$broadcast('blogEdit', this.beingEdited);
     };
 
     this.copyBlog = function(blog) {
