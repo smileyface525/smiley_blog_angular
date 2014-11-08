@@ -3,7 +3,7 @@
   var Tags = function($q, $http) {
     var specialTags = ['All', 'Recent'];
     var tags = [];
-    var registeredCBs = [];
+    var cbForTagListUpdate = [];
 
     return {
 
@@ -19,12 +19,12 @@
         return specialTags[0];
       },
 
-      registerObserverCB: function(callback) {
-        registeredCBs.push(callback);
+      registerForTagListUpdate: function(callback) {
+        cbForTagListUpdate.push(callback);
       },
 
-      notifyObservers: function() {
-        registeredCBs.forEach(function(callback) {
+      notifyTagListUpdate: function() {
+        cbForTagListUpdate.forEach(function(callback) {
           callback();
         });
       },
@@ -33,7 +33,7 @@
         $http.get('/tags')
              .success(function(data) {
                 tags = data;
-                this.notifyObservers();
+                this.notifyTagListUpdate();
              }.bind(this))
       }
     };

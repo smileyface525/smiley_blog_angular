@@ -5,7 +5,7 @@
     this.tagsToBeListed = Tags.allTags();
     this.currentlyShowing = Tags.defaultTag();
 
-    Tags.registerObserverCB(function() {
+    Tags.registerForTagListUpdate(function() {
       this.tagsToBeListed = Tags.allTags();
       if(this.tagsToBeListed.indexOf(this.currentlyShowing) === -1) {
         this.currentlyShowing = Tags.defaultTag();
