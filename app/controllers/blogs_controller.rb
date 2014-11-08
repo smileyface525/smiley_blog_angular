@@ -26,6 +26,18 @@ class BlogsController < ApplicationController
     end
   end
 
+  def update
+    render_unauthorized_request unless  verified_request?
+    updated_blog = Blog.find(params[:blog][:id])
+    if updated_blog
+      updated_blog.update_attributes(blog_params)
+      new_tags = params[:tags].map { |tag_name| Tag.find_or_create_by(name: tag_name) }
+      updated_blog.tags.update_tags_with(new_tags)
+      render json: updated_blog.with_tags_and_comments and return
+    end
+    render_unprocessable_entity
+  end
+
   def destroy
     blog = Blog.find(params[:id])
     if blog
@@ -39,7 +51,7 @@ class BlogsController < ApplicationController
   private
 
   def blog_params
-    params.require(:blog).permit(:title, :content)
+    params.require(:blog).permit(:title, :content, :created_at, :updated_at, :tag_ids)
   end
 
   def render_unauthorized_request
@@ -47,8 +59,14 @@ class BlogsController < ApplicationController
     return
   end
 
-  def render_unprocessable_entity(error_msg)
-    render json: {msg: error_msg}, status: 422
+  def render_unprocessable_entity
+    render json: {msg: 'unprocessable entity'}, status: 422
   end
+
+  def find_or_create_and_get_id_for_tag(value)
+    found_or_created_tag = Tag.find_or_create_by(name: value)
+    found_or_created_tag.id
+  end
+
 end
 
