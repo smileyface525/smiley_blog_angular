@@ -1,12 +1,11 @@
 (function() {
 
-  var BlogListController = function(Session, Blogs, Forms, $scope) {
+  var BlogListController = function(Session, Blogs, Forms, Tags, $scope) {
 
     this.blogs = {};
-    this.editMode = false;
     this.newBlogDisplayed = false;
     this.beingEdited = {};
-
+    this.beingCreated = {};
 
     Blogs.registerForBlogListUpdate(function() {
       if(this.beingEdited) {this.beingEdited.currentlyEditing = false}
@@ -15,13 +14,6 @@
 
     Blogs.getAll('All');
 
-    this.destroy = function(blog) {
-      Blogs.destroy(blog);
-    };
-
-    this.toggleComments = function(blog) {
-      blog.commentsDisplayed = blog.commentsDisplayed ? false : true;
-    };
 
     this.isAdmin = function() {
       return Session.isAdmin();
@@ -31,14 +23,12 @@
       return Session.isGeneral();
     };
 
-
-    this.showNewBlog = function(BFCtrl) {
-      BFCtrl.cancelForm();
-      this.newBlogDisplayed = true;
+    this.showBlogsFor = function(tag) {
+      Blogs.getAll(tag);
     };
 
-    this.hideNewBlog = function() {
-      this.newBlogDisplayed = false;
+    this.toggleComments = function(blog) {
+      blog.commentsDisplayed = blog.commentsDisplayed ? false : true;
     };
 
     this.turnOnEditMode = function(blog, $scope) {
@@ -47,16 +37,29 @@
       $scope.$broadcast('blogEdit', this.beingEdited);
     };
 
-    this.copyBlog = function(blog) {
-      return { blog: {title: blog.blog.title,
-        content: blog.blog.content},
-        tags: blog.tags
-      }
+    this.destroy = function(blog) {
+      Blogs.destroy(blog);
+    };
+
+    this.turnOnCreateMode = function($scope) {
+      this.newBlogDisplayed = true;
+      this.beingCreated.blog = {title: 'New Title', content: 'New Content'};
+      this.beingCreated.tags = [];
+      $scope.$broadcast('blogEdit:cancel');
+      $scope.$broadcast('blogCreate', this.beingCreated);
+    };
+
+    $scope.$on('blogCreate:cancel', function(){
+      this.hideNewBlog();
+    }.bind(this));
+
+    this.hideNewBlog = function() {
+      this.newBlogDisplayed = false;
     };
 
   };
 
-  BlogListController.$inject = ['Session', 'Blogs', 'Forms', '$scope'];
+  BlogListController.$inject = ['Session', 'Blogs', 'Forms', 'Tags', '$scope'];
 
   angular
     .module('blogList')

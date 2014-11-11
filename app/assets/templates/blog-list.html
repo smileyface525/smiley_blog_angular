@@ -3,7 +3,7 @@
     <div class="p2 bg-subtle-gray">
       <h1 class="m0 h2 regular">{{blog.blog.title}}</h1>
       <p class="italic h4">
-        <a href class="mr2" ng-repeat="tag in blog.tags">{{tag}}</a>
+        <a href class="mr2" ng-repeat="tag in blog.tags" ng-click="BLCtrl.showBlogsFor(tag)">{{tag}}</a>
       </p>
       <h2 class="h4 mid-gray regular italic">{{ blog.blog.created_at | date }}</h2>
       <article class="h4 m2 pre">{{blog.blog.content}}</article>
@@ -19,6 +19,6 @@
     </div>
 
   </section>
-  <a href class="button" ng-show="BLCtrl.isAdmin()" ng-click="BLCtrl.showNewBlog(BFCtrl)">New Blog</a>
+  <a href class="button" ng-show="BLCtrl.isAdmin()" ng-click="BLCtrl.turnOnCreateMode(this)">New Blog</a>
   <new-blog ng-show="BLCtrl.newBlogDisplayed"></new-blog>
 </div>

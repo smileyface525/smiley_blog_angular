@@ -7,7 +7,6 @@
     this.blog = {};
     this.newTag = null;
     this.tags = [];
-    this.today = new Date();
     this.newTagInputDisplayed = false;
     this.errors = {};
 
@@ -15,6 +14,20 @@
       this.formType = 'edit';
       this.blog = beingEdited;
       this.setOriginalBlog(beingEdited);
+    }.bind(this));
+
+    $scope.$on('blogEdit:cancel', function(event) {
+      if(this.formType === 'edit') {
+        this.cancelForm(event.currentScope.blogForm);
+      }
+    }.bind(this));
+
+    $scope.$on('blogCreate', function(event, beingCreated) {
+      if(!event.currentScope.blog) {
+        this.formType = 'new';
+        this.blog = beingCreated;
+        this.setOriginalBlog(beingCreated);
+      };
     }.bind(this));
 
     this.setOriginalBlog = function(blog) {
@@ -78,7 +91,7 @@
     };
 
     this.validateTitle = function() {
-      var title = this.blogInputs.blog.title;
+      var title = this.blog.blog.title;
        if(title.trim() === '' || title === this.originalBlog.title) {
         this.errors.title = 'Please enter a new title.';
        }
@@ -88,8 +101,8 @@
     };
 
     this.validateContent = function() {
-      var content = this.blogInputs.blog.content;
-      if(content.trim() === '' || content === this.originalBlog) {
+      var content = this.blog.blog.content;
+      if(content.trim() === '' || content === this.originalBlog.content) {
         this.errors.content = 'Please enter a new content.'
       }
       else {
@@ -119,7 +132,9 @@
       if(this.validateForm()) {
         if(this.formType === 'new') {
           Blogs.create(this.blog)
-
+               .then(function() {
+                  this.cancelForm($scope);
+               }.bind(this));
         }
         else {
           Blogs.update(this.blog)
@@ -131,16 +146,16 @@
       };
     };
 
-    this.cancelForm = function($scope) {
+    this.cancelForm = function(blogForm) {
       if (this.formType === 'new') {
-        blogsCtrl.hideNewBlog();
+        $scope.$emit('blogCreate:cancel');
         this.blog = {};
       }
       else {
         this.setBlogToOG();
         this.blog.currentlyEditing = false;
       }
-      this.resetForm($scope.blogForm);
+      this.resetForm(blogForm);
     };
 
     this.resetForm = function(form) {

@@ -1,12 +1,12 @@
-<section class="mx2 mb2 p1 white-shadow" ng-controller="BlogFormController as BFCtrl">
+<section class="mx2 mb2 p1 white-shadow" ng-controller="NewBlogController as NewBlgCtrl">
   <div class="p2 bg-subtle-gray">
-    <h1 class="m0 h2 regular">{{BFCtrl.blogInputs.blog.title.titleize()}}</h1>
+    <h1 class="m0 h2 regular">{{NewBlgCtrl.blog.blog.title.titleize()}}</h1>
     <p class="italic h4">
-      <a href class="mr2" ng-repeat="tag in BFCtrl.blogInputs.tags">{{tag}}</a>
+      <a href class="mr2" ng-repeat="tag in NewBlgCtrl.blog.tags">{{tag}}</a>
     </p>
-    <h2 class="h4 mid-gray regular italic">{{ BFCtrl.today | date }}</h2>
-    <article class="h4 m2" ng-model="BFCtrl.blogInputs.content">{{BFCtrl.blogInputs.blog.content}}</article>
-    <blog-form></blog-form>
+    <h2 class="h4 mid-gray regular italic">{{ NewBlgCtrl.today | date }}</h2>
+    <article class="h4 m2">{{NewBlgCtrl.blog.blog.content}}</article>
+    <blog-form ng-controller="BlogFormController as BFCtrl"></blog-form>
   </div>
 
 </section>
