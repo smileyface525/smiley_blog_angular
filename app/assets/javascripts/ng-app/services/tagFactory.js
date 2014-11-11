@@ -4,6 +4,8 @@
     var specialTags = ['All', 'Recent'];
     var tags = [];
     var cbForTagListUpdate = [];
+    var cbForCurrentTagUpdate = [];
+    var currentTag = specialTags[0];
 
     return {
 
@@ -17,6 +19,25 @@
 
       defaultTag: function() {
         return specialTags[0];
+      },
+
+      currentTag: function() {
+        return currentTag;
+      },
+
+      setCurrentTag: function(newTag) {
+        currentTag = newTag;
+        this.notifyCurrentTagUpdate();
+      },
+
+      registerForCurrentTagUpdate: function(callback) {
+        cbForCurrentTagUpdate.push(callback);
+      },
+
+      notifyCurrentTagUpdate: function() {
+        cbForCurrentTagUpdate.forEach(function(callback) {
+          callback();
+        });
       },
 
       registerForTagListUpdate: function(callback) {

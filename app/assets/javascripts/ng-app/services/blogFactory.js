@@ -1,7 +1,7 @@
 (function() {
 
 var Blogs = function($q, $http, Tags) {
-  var blogs = {};
+  var blogs = [];
   var cbForBlogListUpdate = [];
 
   return {
@@ -21,22 +21,27 @@ var Blogs = function($q, $http, Tags) {
     },
 
     getAll: function(tag) {
+      var tag = tag;
       var url = '/blogs/?tag=' + tag;
       $http.get(url)
            .success(function(data) {
               blogs = data;
+              Tags.setCurrentTag(tag);
               Tags.getAll();
               this.notifyBlogListUpdate();
            }.bind(this));
     },
 
     create: function(blogInputs) {
+      var deferred = $q.defer();
       $http.post('/blogs', blogInputs)
            .success(function(data) {
               blogs.unshift(data);
               Tags.getAll();
               this.notifyBlogListUpdate();
+              deferred.resolve();
            }.bind(this))
+           return deferred.promise;
     },
 
     update: function(blog) {
@@ -65,6 +70,10 @@ var Blogs = function($q, $http, Tags) {
                  blogs.splice(index, 1);
                 };
               });
+              if(blogs.length === 0) {
+                this.getAll(Tags.defaultTag());
+                return
+              }
               Tags.getAll();
               this.notifyBlogListUpdate();
            }.bind(this))

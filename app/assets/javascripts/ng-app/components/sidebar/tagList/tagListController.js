@@ -3,17 +3,17 @@
   var TagListController = function (Tags, Blogs) {
 
     this.tagsToBeListed = Tags.allTags();
-    this.currentlyShowing = Tags.defaultTag();
+    this.currentlyShowing = Tags.currentTag();
 
     Tags.registerForTagListUpdate(function() {
       this.tagsToBeListed = Tags.allTags();
-      if(this.tagsToBeListed.indexOf(this.currentlyShowing) === -1) {
-        this.currentlyShowing = Tags.defaultTag();
-      }
+    }.bind(this));
+
+    Tags.registerForCurrentTagUpdate(function() {
+      this.currentlyShowing = Tags.currentTag();
     }.bind(this));
 
     this.showBlogsFor = function(tag) {
-      this.currentlyShowing = tag;
       Blogs.getAll(tag);
     };
 
