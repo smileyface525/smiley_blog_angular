@@ -1,0 +1,9 @@
+<section class="mx2 mb2 p1 white-shadow" ng-controller="UserController as UserCtrl">
+  <div class="p2 bg-subtle-gray">
+    <h1 class="m0 h2 regular">{{UserCtrl.type}}</h1>
+    <p>email: {{UserCtrl.email}}</p>
+    <p>username: {{UserCtrl.username}}</p>
+    <user-form ng-controller="UserFormController as UserFormCtrl"></user-form>
+  </div>
+
+</section>

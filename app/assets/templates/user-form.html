@@ -1,0 +1,16 @@
+<form name="userForm" class="m2 h4 mid-gray"  ng-submit="userForm.$valid && userFormCtrl.submit(userForm)" novalidate>
+  <p class="red h4">{{ userFormCtrl.errors.email }}</p>
+  <input class="block full-width field-light mid-gray" type="text" name="user[email]" placeholder="new email"  ng-model="userFormCtrl.user.email" required/>
+  <p class="red h4">{{ userFormCtrl.errors.username }}</p>
+  <input class="block full-width field-light mid-gray" type="text" name="user[username]" placeholder="new username"  ng-model="userFormCtrl.user.username"/>
+  <p class="red h4">{{ userFormCtrl.errors.password }}</p>
+  <input class="block full-width field-light mid-gray" type="password" name="user[password]" placeholder="new password"  ng-model="userFormCtrl.user.password"/>
+  <p class="red h4">{{ userFormCtrl.errors.password_confirmation }}</p>
+  <input class="block full-width field-light mid-gray" type="password" name="user[password_confirmation]" placeholder="new password_confirmation"  ng-model="userFormCtrl.user.password_confirmation"/>
+  <div class="right-align">
+    <button type="submit" class="button-gray button-small regular" >{{userFormCtrl.submitType();}}</button>
+    or
+    <button type="button" class="button-gray button-small regular" ng-click="userFormCtrl.cancelForm(userForm)">cancel</button>
+  </div>
+
+</form>
