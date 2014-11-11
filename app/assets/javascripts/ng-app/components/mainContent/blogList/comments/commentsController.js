@@ -10,6 +10,10 @@
       comment.replyFormDisplayed = true;
     };
 
+    this.replyFormDisplayed = function(comment) {
+      return comment.replyFormDisplayed;
+    };
+
   };
 
   CommentsController.$inject = ['Comments', '$scope'];

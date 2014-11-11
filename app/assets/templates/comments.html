@@ -2,7 +2,7 @@
   <li>
     <p class="m0 h4"><span class="italic bold">{{comment.author}}</span>: "{{comment.content}}" <a href class="h4" ng-show="BLCtrl.isAdmin() && comment.reply === null" ng-click="comCtrl.showReplyForm(comment)">reply</a></p>
     <p class="m0 ml3 h4" ng-show="comment.reply !== null"><span class="italic">smileyface525</span>: "{{comment.reply}}"</p>
-    <comment-form ng-show="comment.replyFormDisplayed" mode="reply" ng-controller="CommentReplyController as CRCtrl"></comment-form>
+    <comment-form ng-show="BLCtrl.isAdmin() && comment.replyFormDisplayed" mode="reply" ng-controller="CommentReplyController as CRCtrl"></comment-form>
   </li>
 </ul>
 <comment-form ng-show="BLCtrl.generalUser()" mode="create" ng-controller="CommentCreateController as CCCtrl"></coment-form>
