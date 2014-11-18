@@ -1,16 +1,39 @@
-<form name="userForm" class="m2 h4 mid-gray"  ng-submit="userForm.$valid && userFormCtrl.submit(userForm)" novalidate>
-  <p class="red h4">{{ userFormCtrl.errors.email }}</p>
-  <input class="block full-width field-light mid-gray" type="text" name="user[email]" placeholder="new email"  ng-model="userFormCtrl.user.email" required/>
-  <p class="red h4">{{ userFormCtrl.errors.username }}</p>
-  <input class="block full-width field-light mid-gray" type="text" name="user[username]" placeholder="new username"  ng-model="userFormCtrl.user.username"/>
-  <p class="red h4">{{ userFormCtrl.errors.password }}</p>
-  <input class="block full-width field-light mid-gray" type="password" name="user[password]" placeholder="new password"  ng-model="userFormCtrl.user.password"/>
-  <p class="red h4">{{ userFormCtrl.errors.password_confirmation }}</p>
-  <input class="block full-width field-light mid-gray" type="password" name="user[password_confirmation]" placeholder="new password_confirmation"  ng-model="userFormCtrl.user.password_confirmation"/>
+<form name="userForm" class="py2 h4 mid-gray"  ng-submit="userForm.$valid && userFormCtrl.submit(this)" novalidate>
+
+  <div class="height-3">
+    <div ng-show="userForm.email.$dirty && userForm.email.$invalid">
+      <p class="m0 red h4" ng-show="userForm.email.$error.required">Tell us your email.</p>
+      <p class="m0 red h4" ng-show="userForm.email.$error.email">Please enter a valid email.</p>
+    </div>
+    <div ng-show="userFormCtrl.errors.email" ng-repeat="eError in userFormCtrl.errors.email">
+      <p class="m0 red h4">{{eError}}</p>
+    </div>
+  </div>
+  <input class="block full-width field-light mid-gray" type="email" name="email" placeholder="email"  ng-model="userFormCtrl.user.email" required/>
+
+  <div class="height-3"></div>
+  <input class="block full-width field-light mid-gray" type="text" name="username" placeholder="username (not required)"  ng-model="userFormCtrl.user.username"/>
+
+  <div class="height-3">
+    <p class="m0 red h4" ng-show="userForm.password.$dirty && userForm.password.$error.required">Please enter a password.</p>
+    <div ng-show="userFormCtrl.errors.password" ng-repeat="pError in userFormCtrl.errors.password">
+      <p class="m0 red h4">{{pError}}</p>
+    </div>
+  </div>
+  <input class="block full-width field-light mid-gray" type="password" name="password" placeholder="password"  ng-model="userFormCtrl.user.password" required/>
+
+  <div class="height-3">
+    <div ng-show="userForm.password_confirmation.$dirty && userForm.password_confirmation.$invalid">
+      <p class="m0 red h4" ng-show="userForm.password_confirmation.$error.required">Please confirm your password.</p>
+      <p class="m0 red h4" ng-show="userForm.password_confirmation.$error.passwordConfirmed">This has to match the password.</p>
+    </div>
+  </div>
+  <input class="block full-width field-light mid-gray" type="password" name="password_confirmation" placeholder="password_confirmation"  ng-model="userFormCtrl.user.password_confirmation" password-confirmed required/>
+
   <div class="right-align">
     <button type="submit" class="button-gray button-small regular" >{{userFormCtrl.submitType();}}</button>
     or
-    <button type="button" class="button-gray button-small regular" ng-click="userFormCtrl.cancelForm(userForm)">cancel</button>
+    <button type="button" class="button-gray button-small regular" ng-click="userFormCtrl.cancelForm(this)">cancel</button>
   </div>
 
 </form>

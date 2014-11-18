@@ -1,6 +1,6 @@
 (function() {
 
-  var TagListController = function (Tags, Blogs) {
+  var TagListController = function (Tags, Blogs, $scope) {
 
     this.tagsToBeListed = Tags.allTags();
     this.currentlyShowing = Tags.currentTag();
@@ -13,13 +13,14 @@
       this.currentlyShowing = Tags.currentTag();
     }.bind(this));
 
-    this.showBlogsFor = function(tag) {
+    this.showBlogsFor = function(tag, $scope) {
       Blogs.getAll(tag);
+      $scope.$root.$broadcast('showBlogs');
     };
 
   };
 
-  TagListController.$inject = ['Tags', 'Blogs'];
+  TagListController.$inject = ['Tags', 'Blogs', '$scope'];
 
   angular
     .module('tagList')

@@ -1,9 +1,15 @@
-<section class="mx2 mb2 p1 white-shadow" ng-controller="UserController as UserCtrl">
-  <div class="p2 bg-subtle-gray">
-    <h1 class="m0 h2 regular">{{UserCtrl.type}}</h1>
-    <p>email: {{UserCtrl.email}}</p>
-    <p>username: {{UserCtrl.username}}</p>
-    <user-form ng-controller="UserFormController as UserFormCtrl"></user-form>
-  </div>
+<div class="right two-third-width" ng-controller="UserController as userCtrl">
+  <section class="mx2 mb2 p1 white-shadow" >
+    <div class="p4 bg-subtle-gray">
+      <h1 class="m0 center h2 mid-gray regular">{{userCtrl.pageTitle()}}</h1>
+      <div class="px3">
+        <div class="py3 mid-gray border-bottom" ng-show="userCtrl.pageTypeIs('update')">
+          <p class="m0 py1"><span class="italic">email:</span><span class="pl2">{{userCtrl.user.email}}</span></p>
+          <p class="m0 py1"><span class="italic">username:</span><span class="pl2">{{userCtrl.user.username}}</span></p>
+        </div>
+        <user-form ng-controller="UserFormController as userFormCtrl"></user-form>
+      </div>
+    </div>
 
-</section>
+  </section>
+</div>

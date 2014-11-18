@@ -10,7 +10,7 @@ class Blog < ActiveRecord::Base
   before_save :titleize_title!
   before_destroy :destroy_empty_tags
   DEFAULT_BLOGS_ORDER = {created_at: :desc}
-  DEFAULT_COMMNETS_ORDER = {created_at: :desc}
+  DEFAULT_COMMNETS_ORDER = {created_at: :asc}
 
   def self.all_with_tags_and_comments
     all.order(DEFAULT_BLOGS_ORDER).map(&:with_tags_and_comments)

@@ -4,6 +4,7 @@
 
     var currentUser = {};
     var cbForUserUpdate = [];
+    var isLoggedIn = false;
 
     return {
 
@@ -17,26 +18,39 @@
         })
       },
 
+      setCurrentUser: function(user) {
+        currentUser = user;
+        isLoggedIn = true;
+        this.notifyUserUpdate();
+      },
+
+      unsetCurrentUser: function() {
+        currentUser = {};
+        isLoggedIn = false;
+        this.notifyUserUpdate();
+      },
+
       currentUser: function() {
         return currentUser;
+      },
+
+      isLoggedIn: function() {
+        return isLoggedIn;
       },
 
       isAdmin: function() {
         return currentUser.status === 'admin';
       },
 
-      isGeneral: function() {
+      isGeneralUser: function() {
         return currentUser.status === 'general';
       },
 
       getSession: function() {
-        var deferred = $q.defer();
         $http.get('/sessions')
              .success(function(data) {
-                currentUser = data;
-                deferred.resolve();
+                this.setCurrentUser(data);
              }.bind(this));
-        return deferred.promise;
       },
 
       create: function(enteredValues) {
@@ -44,8 +58,7 @@
         var dataToBeSent = {user: enteredValues}
         $http.post('/sessions', dataToBeSent)
              .success(function(data) {
-                currentUser = data;
-                this.notifyUserUpdate();
+                this.setCurrentUser(data);
                 deferred.resolve();
              }.bind(this))
              .error(function(error) {
@@ -59,9 +72,9 @@
         var url = '/sessions/' + currentUser.id;
         $http.delete(url)
              .success(function() {
-                currentUser = {};
+                this.unsetCurrentUser();
                 deferred.resolve();
-             })
+             }.bind(this))
         return deferred.promise;
       }
 

@@ -1,27 +1,35 @@
 (function() {
 
-  var LoginFormController = function(Session) {
+  var LoginFormController = function(Session, $scope) {
+
     this.error = {};
-    this.loginForm = {};
     this.formInputs = {};
 
-    this.login = function(loginForm, AHCtrl) {
-      this.loginForm = loginForm;
-      Session.create(this.formInputs, AHCtrl)
+    this.login = function($scope) {
+      Session.create(this.formInputs)
              .then(function(user) {
-                AHCtrl.currentUser = Session.currentUser();
-                AHCtrl.loggedIn = true;
-                this.formInputs = {};
-                this.error = null;
-                this.loginForm.$setPristine();
+                this.resetForm($scope.loginForm);
+                this.error = {};
              }.bind(this), function(error) {
                 this.error = error;
              }.bind(this));
     };
 
+    this.showUserForm = function($scope) {
+      this.resetForm($scope.loginForm);
+      $scope.$root.$broadcast('showUserPage');
+    };
+
+    this.resetForm = function(form) {
+      form.$rollbackViewValue();
+      form.$setPristine();
+      this.formInputs = {};
+      this.error = {};
+    };
+
   };
 
-  LoginFormController.$inject = ['Session'];
+  LoginFormController.$inject = ['Session', '$scope'];
 
   angular
     .module('loginForm')

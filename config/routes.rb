@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :blogs, except: [:show, :new]
   resources :comments, only: [:create, :update]
   resources :tags, only: [:index]
+  resources :users, only: [:create, :update, :destroy]
   root 'main#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

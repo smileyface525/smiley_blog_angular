@@ -2,12 +2,8 @@
 
   var NewBlogController = function($scope) {
 
-    this.blog = {};
+    this.blog = {blog: {}, tags: []};
     this.today = new Date();
-
-    $scope.$on('blogCreate', function(event, beingCreated) {
-      this.blog = beingCreated;
-    }.bind(this));
 
   };
 

@@ -1,0 +1,20 @@
+<section class="mx2 mb2 p1 white-shadow" >
+  <div class="p2 bg-subtle-gray">
+    <h1 class="m0 h2 regular">{{blog.blog.title}}</h1>
+    <p class="italic h4">
+      <a href class="mr2" ng-repeat="tag in blog.tags" ng-click="BlogCtrl.showBlogsFor(tag)">{{tag}}</a>
+    </p>
+    <h2 class="h4 mid-gray regular italic">{{ blog.blog.created_at | date }}</h2>
+    <article class="h4 m2 pre">{{blog.blog.content}}</article>
+    <ul class="right-align h4" ng-show="BlogCtrl.isAdmin">
+      <li class="inline mr1"><a href ng-click="BlogCtrl.notifyBlogEdit(this)">edit</a></li>
+      <li class="inline mr1"><a href ng-click="BlogCtrl.destroy(blog)">delete</a></li>
+    </ul>
+    <blog-form ng-show="blog.currentlyEditing"  ng-controller="BlogFormController as BFCtrl"></blog-form>
+  </div>
+  <div>
+    <h3 class-"regular"><a href ng-click="BlogCtrl.toggleComments(this)" class="button regular" >Comments</a></h3>
+    <comments ng-show="BlogCtrl.commentsDisplayed" ng-controller="CommentsController as comsCtrl"></comments>
+  </div>
+
+</section>

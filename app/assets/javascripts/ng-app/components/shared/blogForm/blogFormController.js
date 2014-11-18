@@ -10,30 +10,28 @@
     this.newTagInputDisplayed = false;
     this.errors = {};
 
-    $scope.$on('blogEdit', function(event, beingEdited) {
+    $scope.$on('blogEdit', function(event, blog) {
       this.formType = 'edit';
-      this.blog = beingEdited;
-      this.setOriginalBlog(beingEdited);
+      blog.currentlyEditing = true;
+      this.setOriginalBlog(blog);
+      this.blog = blog;
     }.bind(this));
 
-    $scope.$on('blogEdit:cancel', function(event) {
+
+    $scope.$on('blogCreate', function(event) {
       if(this.formType === 'edit') {
         this.cancelForm(event.currentScope.blogForm);
       }
-    }.bind(this));
-
-    $scope.$on('blogCreate', function(event, beingCreated) {
       if(!event.currentScope.blog) {
         this.formType = 'new';
-        this.blog = beingCreated;
-        this.setOriginalBlog(beingCreated);
+        this.blog = event.currentScope.NewBlgCtrl.blog;
       };
     }.bind(this));
 
     this.setOriginalBlog = function(blog) {
-      this.originalBlog = {title: blog.blog.title,
-                           content: blog.blog.content};
-      this.originalBlog.tags = [];
+      this.originalBlog = { title: blog.blog.title,
+                           content: blog.blog.content,
+                          tags: [] };
       blog.tags.forEach(function(tag) {
         this.originalBlog.tags.push(tag);
       }.bind(this));
@@ -45,7 +43,7 @@
 
     this.tagAlreadyChecked = function(tag) {
       var checked = false;
-      if(!this.blog.tags) {return};
+      if(!this.blog.tags) { return };
       this.blog.tags.forEach(function(t) {
         if (t === tag) { checked =  true;};
       });
@@ -84,44 +82,13 @@
       var tags = this.blog.tags;
       if(tags.length === 0) {
         this.errors.tags = 'Please select at leat one tag.';
+        return false;
       }
       else {
         this.errors.tags = null;
+        return true;
       }
     };
-
-    this.validateTitle = function() {
-      var title = this.blog.blog.title;
-       if(title.trim() === '' || title === this.originalBlog.title) {
-        this.errors.title = 'Please enter a new title.';
-       }
-       else {
-        this.errors.title = null;
-       }
-    };
-
-    this.validateContent = function() {
-      var content = this.blog.blog.content;
-      if(content.trim() === '' || content === this.originalBlog.content) {
-        this.errors.content = 'Please enter a new content.'
-      }
-      else {
-        this.errors.content = null;
-      }
-    };
-
-    this.validateForm = function() {
-      this.validateTags();
-      if(this.formType === 'new') {
-        this.validateTitle()
-        this.validateContent();
-      };
-      for (var key in this.errors ) {
-        if(this.errors[key] !== null) { return false; }
-      }
-      return true;
-    };
-
 
     this.submitType = function() {
       if (this.formType === 'new') { return 'create blog'; }
@@ -129,7 +96,7 @@
     }
 
     this.submit = function($scope) {
-      if(this.validateForm()) {
+      if(this.validateTags()) {
         if(this.formType === 'new') {
           Blogs.create(this.blog)
                .then(function() {
@@ -140,29 +107,32 @@
           Blogs.update(this.blog)
                .then(function(updatedBlog) {
                   this.blog.currentlyEditing = false;
-                  this.resetForm($scope);
+                  this.resetForm($scope.blogForm);
                }.bind(this));
         };
       };
     };
 
-    this.cancelForm = function(blogForm) {
+    this.cancelForm = function($scope) {
       if (this.formType === 'new') {
-        $scope.$emit('blogCreate:cancel');
-        this.blog = {};
+        $scope.BlgsCtrl.hideNewBlog();
       }
       else {
         this.setBlogToOG();
         this.blog.currentlyEditing = false;
       }
-      this.resetForm(blogForm);
+      this.resetForm($scope.blogForm);
     };
 
     this.resetForm = function(form) {
+      if (this.formType === 'new') {
+        this.blog.blog = {};
+        this.blog.tags = [];
+      }
       this.cancelNewTagInput();
       form.$setPristine();
       this.formType = null;
-      this.errros = {};
+      this.errors = {};
     };
 
     this.setBlogToOG = function() {
@@ -170,6 +140,7 @@
       this.blog.blog.content = this.originalBlog.content;
       this.blog.tags = this.originalBlog.tags;
     };
+
   };
 
   BlogFormController.$inject = ['Blogs', 'Tags', '$scope'];

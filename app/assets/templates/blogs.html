@@ -1,0 +1,5 @@
+<div class="right two-third-width">
+  <blog-list ng-controller="BlogListController as BLCtrl"></blog-list>
+  <a href class="button" ng-show="BlgsCtrl.isAdmin" ng-click="BlgsCtrl.turnOnCreateMode(this)">New Blog</a>
+  <new-blog ng-show="BlgsCtrl.newBlogDisplayed"></new-blog>
+</div>

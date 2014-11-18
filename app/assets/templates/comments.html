@@ -1,8 +1,5 @@
-<ul class="ml3 list-reset mid-gray" ng-repeat="comment in blog.comments">
-  <li>
-    <p class="m0 h4"><span class="italic bold">{{comment.author}}</span>: "{{comment.content}}" <a href class="h4" ng-show="BLCtrl.isAdmin() && comment.reply === null" ng-click="comCtrl.showReplyForm(comment)">reply</a></p>
-    <p class="m0 ml3 h4" ng-show="comment.reply !== null"><span class="italic">smileyface525</span>: "{{comment.reply}}"</p>
-    <comment-form ng-show="BLCtrl.isAdmin() && comment.replyFormDisplayed" mode="reply" ng-controller="CommentReplyController as CRCtrl"></comment-form>
-  </li>
+<p class="ml3 h4 italic mid-gray" ng-show="comsCtrl.commentsEmpty()">There are no comments to show :-( <span ng-show="comsCtrl.commentsEmpty() && comsCtrl.generalUser">Maybe you can write the first one :-)</span></p>
+<ul class="ml3 list-reset mid-gray" >
+  <comment ng-repeat="comment in comsCtrl.comments" ng-controller="CommentController as comCtrl"></comment>
 </ul>
-<comment-form ng-show="BLCtrl.generalUser()" mode="create" ng-controller="CommentCreateController as CCCtrl"></coment-form>
+<comment-form ng-show="comsCtrl.generalUser" mode="create" ng-controller="CommentFormController as ComFormCtrl"></coment-form>

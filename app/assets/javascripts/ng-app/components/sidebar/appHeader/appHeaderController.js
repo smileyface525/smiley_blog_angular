@@ -5,11 +5,12 @@
     this.currentUser = Session.currentUser();
     this.loggedIn = false;
 
-    Session.getSession()
-           .then(function() {
-              this.currentUser = Session.currentUser();
-              this.loggedIn = true;
-           }.bind(this));
+    Session.registerForUserUpdate(function() {
+      this.loggedIn = Session.isLoggedIn();
+    }.bind(this));
+
+    Session.getSession();
+
   };
 
   AppHeaderController.$inject = ['Session'];

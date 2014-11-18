@@ -2,7 +2,12 @@
 
   var UserNavbarController = function(Session) {
 
+    this.username = Session.currentUser().username;
     this.optionsDisplayed = false;
+
+    Session.registerForUserUpdate(function() {
+      this.username = Session.currentUser().username;
+    }.bind(this));
 
     this.showOptions = function() {
       this.optionsDisplayed = true;
@@ -12,10 +17,13 @@
       this.optionsDisplayed = false;
     };
 
-    this.logout = function(AHCtrl) {
+    this.showUserPage = function($scope) {
+      $scope.$root.$broadcast('showUserPage');
+    };
+
+    this.logout = function() {
       Session.destroy()
              .then(function() {
-                AHCtrl.loggedIn = false;
                 this.optionsDisplayed = false;
              }.bind(this));
     };

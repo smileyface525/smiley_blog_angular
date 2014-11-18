@@ -129,6 +129,10 @@ h6,
   font-size: .75rem;
 }
 
+.line-height-2 {
+  line-height: 2rem;
+}
+
 .list-reset {
   list-style: none;
   padding-left: 0;
@@ -337,6 +341,14 @@ td {
   height: 1.5rem;
 }
 
+.height-3 {
+  height: 3rem;
+}
+
+.height-2 {
+  height: 2rem;
+}
+
 .full-height {
   height: 100vh;
 }
@@ -456,6 +468,11 @@ td {
   margin-right: 1rem;
 }
 
+.my2 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .m3 {
   margin: 2rem;
 }
@@ -489,6 +506,11 @@ td {
 }
 
 .mb4 {
+  margin-bottom: 4rem;
+}
+
+.my4 {
+  margin-top: 4rem;
   margin-bottom: 4rem;
 }
 
@@ -549,6 +571,9 @@ td {
   padding-right: .5rem;
 }
 
+.pb1 {
+  padding-bottom: .5rem;
+}
 
 .p2 {
   padding: 1rem;
@@ -566,6 +591,14 @@ td {
 
 .pb2 {
   padding-bottom: 1rem;
+}
+
+.pt2 {
+  padding-top: 1rem;
+}
+
+.pl2 {
+  padding-left: 1rem;
 }
 
 .p3 {
@@ -826,6 +859,10 @@ td {
 
 .col-3 {
   width: 25%;
+}
+
+.col-3-4 {
+  width: 30%;
 }
 
 .col-4 {
@@ -1553,6 +1590,11 @@ hr {
   border-left-style: solid;
   border-left-width: 1px;
   border-left-color: #ccc;
+}
+
+.thick-gray-border-x {
+  border-right: 15rem solid  #C8C2BB;
+  border-left: 15rem solid  #C8C2BB;
 }
 
 .rounded {

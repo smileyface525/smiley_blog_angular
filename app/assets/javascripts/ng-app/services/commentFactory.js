@@ -17,52 +17,32 @@
         });
       },
 
-      comment: function(blog, content) {
+      comment: function(commentScope) {
         var deferred = $q.defer();
-        var data = {blog_id: blog.id,
+        var commentScope = commentScope;
+        var data = {blog_id: commentScope.blog.blog.id,
                     user_id: Session.currentUser().id,
-                    comment: {content: content}
+                    comment: {content: commentScope.content}
                     };
         $http.post('/comments', data)
              .success(function(data) {
-                this.addCommentToBlog(deferred, Blogs.blogs(), data);
+                commentScope.blog.comments.push(data.comment);
+                deferred.resolve();
              }.bind(this))
-            return deferred.promise;
+        return deferred.promise;
       },
 
-      createReply: function(comment, content) {
+      createReply: function(commentScope) {
+        var comment = commentScope.comment;
         var deferred = $q.defer();
         url = '/comments/' + comment.id;
-        $http.put(url, {reply: content})
+        $http.put(url, {reply: commentScope.content})
              .success(function(data) {
-                this.updateReply(deferred, Blogs.blogs(), data);
-             }.bind(this));
-          return deferred.promise;
-      },
-
-      addCommentToBlog: function(deferred, blogs, newComment) {
-        blogs.forEach(function(blog) {
-          if(blog.blog.id === newComment.blog_id) {
-            blog.comments.push(newComment.comment);
-            deferred.resolve(blog.comments);
-          }
-        });
-      },
-
-      updateReply: function(deferred, blogs, updatedComment) {
-        blogs.forEach(function(blog) {
-          if(blog.blog.id === updatedComment.blog_id) {
-            blog.comments.forEach(function(comment) {
-              if(comment.id === updatedComment.comment.id) {
-                comment = updatedComment.comment;
-                this.notifyCommentsUpdate(blog.comments);
+                comment.reply = data.comment.reply;
                 deferred.resolve(comment);
-              }
-            }.bind(this));
-          }
-        }.bind(this));
+             }.bind(this));
+        return deferred.promise;
       }
-
 
     };
 

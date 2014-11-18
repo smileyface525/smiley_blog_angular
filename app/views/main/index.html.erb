@@ -1,12 +1,12 @@
-<div id="wrapper"  class="mx15">
-  <div id="main" class="clearfix  bg-white pt3 pb10">
-    <div id="side" class="left fixed fifth-width">
-      <app-header ng-controller="AppHeaderController as AHCtrl"></app-header>
+<div id="wrapper"  class="col-8 mx-auto bg-white">
+  <div id="main" class="full-width pt3 pb3 clearfix">
+    <div id="side" class="left col-3-4">
+      <app-header ng-controller="AppHeaderController as AppHdrCtrl"></app-header>
       <tag-list ng-controller="TagListController as tagCtrl"></tag-list>
     </div>
     <main-content ng-controller="MainContentController as MCCtrl"></main-content>
   </div>
-  <footer class="center italic">
-    <p class="h4 mt2">by eiko seino 2014</p>
-  </footer>
+<footer class="height-2 center mid-gray italic">
+  <p class="h4 m0 p0 line-height-2">by eiko seino 2014</p>
+</footer>
 </div>

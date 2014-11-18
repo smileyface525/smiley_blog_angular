@@ -1,0 +1,5 @@
+<li>
+  <p class="m0 h4"><span class="italic bold">{{comment.author}}</span>: "{{comment.content}}" <a href class="h4" ng-show="comCtrl.admin && comCtrl.hasNotBeenReplied(comment)" ng-click="comCtrl.showReplyForm(comment)">reply</a></p>
+  <p class="m0 ml3 h4" ng-show="comment.hasBeenReplied(comment)"><span class="italic">smileyface525</span>: "{{comment.reply}}"</p>
+  <comment-form ng-show="comment.replyFormDisplayed" mode="reply" ng-controller="CommentFormController as ComFormCtrl"></comment-form>
+</li>

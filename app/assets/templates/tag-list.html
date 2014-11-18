@@ -1,7 +1,7 @@
 <nav class="m0 py3">
-  <ul class="ml3 list-gray-square" ng-repeat="tag in tagCtrl.tagsToBeListed">
+  <ul class="ml3 list-gray-square italic" ng-repeat="tag in tagCtrl.tagsToBeListed">
     <li>
-      <a href ng-class="{'mid-gray': tag === tagCtrl.currentlyShowing}" ng-click="tagCtrl.showBlogsFor(tag)">{{ tag }}</a>
+      <a href ng-class="{'mid-gray': tag === tagCtrl.currentlyShowing}" ng-click="tagCtrl.showBlogsFor(tag, this)">{{ tag }}</a>
     </li>
   </ul>
 </nav>

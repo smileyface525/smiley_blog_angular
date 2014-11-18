@@ -4,8 +4,13 @@
 
     this.currentlyShowing = 'blogList';
 
-    $scope.$on('showUserForm', function() {
-      this.currentlyShowing = 'userForm';
+    $scope.$on('showUserPage', function(event) {
+      event.currentScope.$broadcast('userForm:cancel');
+      this.currentlyShowing = 'userPage';
+    }.bind(this));
+
+    $scope.$on('showBlogs', function(event) {
+      this.currentlyShowing = 'blogList';
     }.bind(this));
 
   };
@@ -15,6 +20,5 @@
   angular
     .module('mainContent')
     .controller('MainContentController', MainContentController);
-
 
 }());

@@ -1,4 +1,4 @@
-<form name="blogForm" class="m2 h4 mid-gray"  ng-submit="blogForm.$valid && BFCtrl.submit(blogForm, BLCtrl)" novalidate>
+<form name="blogForm" class="m2 h4 mid-gray"  ng-submit="blogForm.$valid && BFCtrl.submit(this)" novalidate>
   <p class="red h4">{{ BFCtrl.errors.tags }}</p>
   <div class="inline" ng-repeat="tag in BFCtrl.tags">
     <input type="checkbox" ng-click="BFCtrl.toggleTagSelection(tag)" ng-checked="BFCtrl.tagAlreadyChecked(tag)" required/>{{tag}}
@@ -10,13 +10,15 @@
     <button type="button" class="ml1 button-gray button-small regular" ng-click="BFCtrl.cancelNewTagInput()">cancel</button>
   </div>
   <p class="red h4">{{ BFCtrl.errors.title }}</p>
-  <input class="block full-width field-light mid-gray" type="text" name="blog[title]" placeholder="new title"  ng-model="BFCtrl.blog.blog.title" required/>
+  <p class="red h4" ng-show="blogForm.title.$dirty && blogForm.title.$error.required">Please enter title.</p>
+  <input class="block full-width field-light mid-gray" type="text" name="title" placeholder="new title"  ng-model="BFCtrl.blog.blog.title" required/>
   <p class="red h4">{{ BFCtrl.errors.content }}</p>
-  <textarea class="block full-width field-light mid-gray" name="blog[content]" placeholder="new content" ng-model="BFCtrl.blog.blog.content" required></textarea>
+  <p class="red h4" ng-show="blogForm.content.$dirty && blogForm.content.$error.required">Please enter content.</p>
+  <textarea class="block full-width field-light mid-gray" name="content" placeholder="new content" ng-model="BFCtrl.blog.blog.content" required></textarea>
   <div class="right-align">
     <button type="submit" class="button-gray button-small regular" >{{BFCtrl.submitType();}}</button>
     or
-    <button type="button" class="button-gray button-small regular" ng-click="BFCtrl.cancelForm(blogForm)">cancel</button>
+    <button type="button" class="button-gray button-small regular" ng-click="BFCtrl.cancelForm(this)">cancel</button>
   </div>
 
 </form>

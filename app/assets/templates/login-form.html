@@ -1,11 +1,16 @@
-<form name="loginForm" class="ml1 nine-tenth-width right-align" ng-submit="loginForm.$valid && LFCtrl.login(loginForm, AHCtrl)" novalidate>
-  <div class="m0 left-align small-height" >
-    <p class="h4 mid-gray" ng-show="LFCtrl.error">{{LFCtrl.error.msg}}</p>
+<form name="loginForm" class="ml1 nine-tenth-width right-align" ng-submit="loginForm.$valid && LFCtrl.login(this)" novalidate>
+
+  <div class="m0 left-align height-3" >
+    <p class="h4 mid-gray" ng-show="LFCtrl.error.msg">{{LFCtrl.error.msg}}</p>
+    <p class="m0 h4 mid-gray" ng-show="loginForm.email.$dirty && loginForm.email.$error.required">Please enter your email address.</p>
+    <p class="m0 h4 mid-gray" ng-show="loginForm.email.$dirty && loginForm.email.$error.email">Please enter a valid email.</p>
+    <p class="m0 h4 mid-gray" ng-show="loginForm.password.$dirty && loginForm.password.$error.required">Please enter your password.</p>
   </div>
-  <input type="email" class="block full-width input-sm field-light" placeholder="email" ng-model="LFCtrl.formInputs.email" required/>
-  <input type="password" class="block full-width mb0 input-sm field-light" placeholder="password" ng-model="LFCtrl.formInputs.password" required/>
+
+  <input type="email" name="email" class="block full-width input-sm field-light" placeholder="email" ng-model="LFCtrl.formInputs.email" required/>
+  <input type="password" name="password" class="block full-width mb0 input-sm field-light" placeholder="password" ng-model="LFCtrl.formInputs.password" required/>
   <p class="m0 h6"><a href>forgot my password</a></p>
   <button type="submit" class="button-gray button-small regular" >login</button>
   or
-  <button type="button" class="button-gray button-small regular" ng-click="">sign up</button>
+  <button type="button" class="button-gray button-small regular" ng-click="LFCtrl.showUserForm(this)">sign up</button>
 </form>
